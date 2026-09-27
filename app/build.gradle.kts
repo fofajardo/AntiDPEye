@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.fofajardo.antidpeye"
-        minSdk = 23
+        minSdk = 29
         targetSdk = 35
         versionCode = 1
         versionName = "1.0.0"
@@ -51,6 +51,11 @@ android {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")
             version = "4.1.2"
+        }
+    }
+    sourceSets {
+        getByName("main") {
+            jniLibs.srcDirs("src/main/jni/zeptun/zig-out/android/jniLibs")
         }
     }
     buildFeatures {
@@ -115,31 +120,18 @@ kotlin {
     }
 }
 
-tasks.register<Exec>("runNdkBuild") {
+tasks.register<Exec>("buildZeptun") {
     group = "build"
 
-    val ndkDir =
-        androidComponents.sdkComponents.ndkDirectory
-            .get()
-            .asFile.absolutePath
-    executable =
-        if (System.getProperty("os.name").startsWith("Windows", ignoreCase = true)) {
-            "$ndkDir\\ndk-build.cmd"
-        } else {
-            "$ndkDir/ndk-build"
-        }
-    setArgs(
-        listOf(
-            "NDK_PROJECT_PATH=build/intermediates/ndkBuild",
-            "NDK_LIBS_OUT=src/main/jniLibs",
-            "APP_BUILD_SCRIPT=src/main/jni/Android.mk",
-            "NDK_APPLICATION_MK=src/main/jni/Application.mk",
-        ),
-    )
+    val ndkDir = androidComponents.sdkComponents.ndkDirectory.get().asFile.absolutePath
 
-    println("Command: $commandLine")
+    workingDir = file("src/main/jni/zeptun")
+    environment("ANDROID_NDK_HOME", ndkDir)
+
+    executable = "sh"
+    setArgs(listOf("scripts/build_android.sh"))
 }
 
 tasks.preBuild {
-    dependsOn("runNdkBuild")
+    dependsOn("buildZeptun")
 }

@@ -13,8 +13,8 @@ import com.fofajardo.antidpeye.R
 import com.fofajardo.antidpeye.activities.MainActivity
 import com.fofajardo.antidpeye.core.ByeDpiProxy
 import com.fofajardo.antidpeye.core.ByeDpiProxyPreferences
-import com.fofajardo.antidpeye.core.TProxyService
 import com.fofajardo.antidpeye.data.*
+import dev.zeptun.Zeptun
 import com.fofajardo.antidpeye.utility.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -173,7 +173,12 @@ class VpnService : LifecycleVpnService() {
     }
 
     private fun startTun2Socks(settings: AppSettings) {
-        Log.i(TAG, "Starting tun2socks")
+        try {
+            val ver = Zeptun.nativeVersion()
+            Log.i(TAG, "Starting tun2socks (zeptun version: $ver)")
+        } catch (e: Throwable) {
+            Log.e(TAG, "Failed reading zeptun version", e)
+        }
 
         if (tunFd != null) {
             throw IllegalStateException("VPN field not null")
@@ -181,47 +186,50 @@ class VpnService : LifecycleVpnService() {
 
         val port = settings.engine.proxyPort.toIntOrNull() ?: 1080
         val dns = settings.dnsIp
-        val ipv6 = settings.ipv6Enable
-
-        val tun2socksConfig = """
-        | misc:
-        |   task-stack-size: 81920
-        | socks5:
-        |   mtu: 8500
-        |   address: 127.0.0.1
-        |   port: $port
-        |   udp: udp
-        """.trimMargin("| ")
-
-        val configPath = try {
-            File.createTempFile("config", "tmp", cacheDir).apply {
-                writeText(tun2socksConfig)
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to create config file", e)
-            throw e
-        }
 
         val fd = createBuilder(settings).establish()
             ?: throw IllegalStateException("VPN connection failed")
 
         this.tunFd = fd
 
-        TProxyService.TProxyStartService(configPath.absolutePath, fd.fd)
+        val config = """
+            preset = "mobile"
 
-        Log.i(TAG, "Tun2Socks started")
+            [tun]
+            fd = ${fd.fd}
+            mtu = 8500
+
+            [handler]
+            kind = "socks5"
+
+            [handler.socks5]
+            server = "127.0.0.1:$port"
+            pipeline = false
+            optimistic_data = false
+
+            [dns]
+            hijack = true
+            upstream = "$dns:53"
+        """.trimIndent()
+
+        // XXX: Although the fd is processed in the JNI code, the device kind
+        //      is never updated by Zeptun. We workaround this by setting the
+        //      fd again in the TOML config above. This could be removed once
+        //      upstream either provides a proper fix or considers this as
+        //      intended behavior.
+        val rc = Zeptun.nativeStart(this, fd.fd, config)
+        if (rc != 0) {
+            Log.e(TAG, "Zeptun failed to start with rc: $rc")
+            throw IllegalStateException("Zeptun start failed: $rc")
+        }
+
+        Log.i(TAG, "Zeptun started")
     }
 
     private fun stopTun2Socks() {
         Log.i(TAG, "Stopping tun2socks")
 
-        TProxyService.TProxyStopService()
-
-        try {
-            File(cacheDir, "config.tmp").delete()
-        } catch (e: SecurityException) {
-            Log.e(TAG, "Failed to delete config file", e)
-        }
+        Zeptun.nativeStop()
 
         tunFd?.close() ?: Log.w(TAG, "VPN not running")
         tunFd = null
@@ -273,6 +281,7 @@ class VpnService : LifecycleVpnService() {
         Log.d(TAG, "DNS: $dns")
         val builder = Builder()
         builder.setSession("AntiDPEye")
+        builder.setMtu(8500)
         builder.setConfigureIntent(
             PendingIntent.getActivity(
                 this,
@@ -282,17 +291,15 @@ class VpnService : LifecycleVpnService() {
             )
         )
 
-        builder.addAddress("10.10.10.10", 32)
+        builder.addAddress("172.19.0.1", 30)
             .addRoute("0.0.0.0", 0)
 
         if (ipv6) {
-            builder.addAddress("fd00::1", 128)
+            builder.addAddress("fdfe:dcba:9876::1", 126)
                 .addRoute("::", 0)
         }
 
-        if (dns.isNotBlank()) {
-            builder.addDnsServer(dns)
-        }
+        builder.addDnsServer("172.19.0.2")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             builder.setMetered(false)
         }

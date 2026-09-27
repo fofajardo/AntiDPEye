@@ -63,7 +63,7 @@ Deep Packet Inspection (DPI) is a technology used to analyze and filter network 
 ## Dependencies
 
 - [ByeDPI](https://github.com/hufrea/byedpi)
-- [hev-socks5-tunnel](https://github.com/heiher/hev-socks5-tunnel)
+- [zeptun](https://github.com/Noisemux/zeptun)
 
 ## Building
 
