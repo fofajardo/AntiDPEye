@@ -16,5 +16,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ByeDpi"
+rootProject.name = "AntiDPEye"
 include(":app")

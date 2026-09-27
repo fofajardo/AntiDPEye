@@ -1,35 +1,64 @@
-name: Feature request / Предложить новую функциональность
-description: Suggest an idea for this project / Предложить идею для проекта
-labels: [ enhancement ]
-assignees: dovecoteescapee
+name: Feature Request
+description: Suggest an improvement or new feature for AntiDPEye
+title: "[Feature]: "
+labels:
+  - enhancement
+
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement to AntiDPEye.
+
+        Please describe the problem your proposal would solve and explain how the feature should work.
+
   - type: textarea
     id: problem
     attributes:
-      label: What problem does your proposal solve? / Какую проблему решает ваше предложение?
-      description: A clear and concise description of what the problem is / Четкое и краткое описание проблемы
+      label: Problem or use case
+      description: What problem would this feature solve? Describe who is affected and when the problem occurs.
+      placeholder: |
+        I would like to ...
+        This would help because ...
     validations:
       required: true
+
   - type: textarea
-    id: solution
+    id: proposed-solution
     attributes:
-      label: Describe the solution you'd like / Опишите решение, которое вы предлагаете
-      description: A clear and concise description of what you want to happen / Четкое и краткое описание того, что вы хотите, чтобы произошло
+      label: Proposed solution
+      description: Clearly describe the feature or improvement you would like to see.
+      placeholder: |
+        Add an option that ...
+        When the user ..., AntiDPEye should ...
     validations:
       required: true
+
   - type: textarea
     id: alternatives
     attributes:
-      label: Describe alternatives you've considered / Опишите альтернативные варианты, которые вы рассматривали
-      description: A clear and concise description of any alternative solutions or features you've considered / Четкое и краткое описание любых альтернативных решений или функций, которые вы рассматривали
+      label: Alternatives considered
+      description: Describe any alternative solutions, workarounds, or existing features you have considered.
+      placeholder: |
+        I have tried ...
+        Another possible solution would be ...
     validations:
       required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other information that may help explain or evaluate the proposal, such as screenshots, mockups, examples, or related projects.
+
   - type: checkboxes
     id: checklist
     attributes:
-      label: Before you submit / Прежде чем отправить
+      label: Before submitting
       options:
-        - label: I have searched the open and closed issues for duplicates / Я искал(а) открытые и закрытые задачи на предмет дубликатов
+        - label: I have searched the open and closed issues for duplicates.
           required: true
-        - label: I have verified that this feature does not already exist / Я убедился(ась), что эта функция еще не существует
+        - label: I have verified that this feature does not already exist.
+          required: true
+        - label: This request is specifically related to AntiDPEye.
           required: true

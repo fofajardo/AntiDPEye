@@ -16,7 +16,7 @@ JNIEXPORT jint JNI_OnLoad(
 }
 
 JNIEXPORT jint JNICALL
-Java_io_github_dovecoteescapee_byedpi_core_ByeDpiProxy_jniCreateSocketWithCommandLine(
+Java_com_fofajardo_antidpeye_core_ByeDpiProxy_jniCreateSocketWithCommandLine(
         JNIEnv *env,
         __attribute__((unused)) jobject thiz,
         jobjectArray args) {
@@ -24,7 +24,7 @@ Java_io_github_dovecoteescapee_byedpi_core_ByeDpiProxy_jniCreateSocketWithComman
 }
 
 JNIEXPORT jint JNICALL
-Java_io_github_dovecoteescapee_byedpi_core_ByeDpiProxy_jniCreateSocket(
+Java_com_fofajardo_antidpeye_core_ByeDpiProxy_jniCreateSocket(
         JNIEnv *env,
         __attribute__((unused)) jobject thiz,
         jstring ip,
@@ -116,7 +116,7 @@ Java_io_github_dovecoteescapee_byedpi_core_ByeDpiProxy_jniCreateSocket(
 }
 
 JNIEXPORT jint JNICALL
-Java_io_github_dovecoteescapee_byedpi_core_ByeDpiProxy_jniStartProxy(
+Java_com_fofajardo_antidpeye_core_ByeDpiProxy_jniStartProxy(
         __attribute__((unused)) JNIEnv *env,
         __attribute__((unused)) jobject thiz,
         jint fd) {
@@ -133,7 +133,7 @@ Java_io_github_dovecoteescapee_byedpi_core_ByeDpiProxy_jniStartProxy(
 }
 
 JNIEXPORT jint JNICALL
-Java_io_github_dovecoteescapee_byedpi_core_ByeDpiProxy_jniStopProxy(
+Java_com_fofajardo_antidpeye_core_ByeDpiProxy_jniStopProxy(
         __attribute__((unused)) JNIEnv *env,
         __attribute__((unused)) jobject thiz,
         jint fd) {

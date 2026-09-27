@@ -16,20 +16,21 @@
         android:required="false" />    
 
     <application
-        android:name=".ByeDpiApp"
+        android:name=".MainApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:banner="@mipmap/ic_launcher_foreground"
+        android:banner="@drawable/banner"
         android:logo="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ByeDPI"
+        android:theme="@style/Theme.AntiDPEye"
         tools:targetApi="35">
         <activity
             android:name=".activities.MainActivity"
+            android:theme="@style/Theme.AntiDPEye.Starting"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,7 +46,7 @@
             android:label="@string/title_settings"
             android:exported="true"/>
 
-        <service android:name=".services.ByeDpiVpnService"
+        <service android:name=".services.VpnService"
             android:permission="android.permission.BIND_VPN_SERVICE"
             android:foregroundServiceType="specialUse"
             android:exported="false">
@@ -60,7 +61,7 @@
                 android:value="vpn" />
         </service>
 
-        <service android:name=".services.ByeDpiProxyService"
+        <service android:name=".services.ProxyService"
             android:foregroundServiceType="specialUse"
             android:exported="false">
             <property

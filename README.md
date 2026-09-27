@@ -1,74 +1,64 @@
-# ByeDPI for Android
-
-**English** | [Русский](README-ru.md)
+# AntiDPEye for Android
 
 <div style="text-align: center;">
-  <img alt="ByeDPI logo" src=".github/images/logo.svg" width="100%" height="200px">
+  <img alt="AntiDPEye logo" src=".github/images/logo.svg" width="100%" height="200px">
 </div>
 
----
+An Android application that runs a local VPN service to help bypass DPI (Deep Packet Inspection) and censorship.
 
-Android application that runs a local VPN service to bypass DPI (Deep Packet Inspection) and censorship.
-
-
-This application runs a SOCKS5 proxy [ByeDPI](https://github.com/hufrea/byedpi) and redirects all traffic through it.
+AntiDPEye runs the [ByeDPI](https://github.com/hufrea/byedpi) SOCKS5 proxy and redirects your device's traffic through it. This is a fork of the [ByeDPI for Android](https://github.com/dovecoteescapee/ByeDPIAndroid) project.
 
 ## Installation
 
-[<img src="https://github.com/machiav3lli/oandbackupx/blob/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png"
-    alt="Get it on GitHub"
-    height="80">](https://github.com/dovecoteescapee/ByeDPIAndroid/releases)
-[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
-    alt="Get it on IzzyOnDroid"
-    height="80">](https://apt.izzysoft.de/fdroid/index/apk/io.github.dovecoteescapee.byedpi)
+[<img src="https://raw.githubusercontent.com/rubenpgrady/get-it-on-github/refs/heads/main/get-it-on-github.png" alt="Get it on GitHub" height="96" />](https://github.com/fofajardo/AntiDPEye/releases)
 
-### Or use Obtainium
+### Using Obtainium
 
-1. Install [Obtainium](https://github.com/ImranR98/Obtainium/blob/main/README.md#installation)
-2. Add the app by URL:  
-   `https://github.com/dovecoteescapee/ByeDPIAndroid`
+1. Install [Obtainium](https://github.com/ImranR98/Obtainium/blob/main/README.md#installation).
+2. Add AntiDPEye using this URL:
+   `https://github.com/fofajardo/AntiDPEye`
 
 ## Settings
 
-To bypass some blocks, you may need to change the settings. More about the various settings can be found in the [ByeDPI documentation](https://github.com/hufrea/byedpi/blob/v0.13/README.md).
+Some blocks may require you to adjust the application settings. For details about the available options, see the [ByeDPI documentation](https://github.com/hufrea/byedpi/blob/main/README.md).
 
 ## FAQ
 
-### I can't configure it. What to do?
+### Does AntiDPEye require root access?
 
-You can ask for help in [discussion](https://github.com/dovecoteescapee/ByeDPIAndroid/discussions).
+No. All features work without root access.
 
-### Does the application require root access?
+### Is AntiDPEye a VPN?
 
-No. All application features work without root.
+Not in the traditional sense. AntiDPEye uses Android's VPN mode to redirect traffic through a local proxy, but it does not connect to a remote VPN server.
 
-### Is this a VPN?
+AntiDPEye does not encrypt your traffic or hide your IP address.
 
-No. The application uses the VPN mode on Android to redirect traffic, but does not send anything to a remote server. It does not encrypt traffic and does not hide your IP address.
+### How can I use AntiDPEye with AdGuard?
 
-### How to use ByeDPI with AdGuard?
-
-1. Run ByeDPI in proxy mode.
-2. Add ByeDPI to AdGuard exceptions on the "App management" tab.
-3. In AdGuard settings, specify the proxy:
+1. Run AntiDPEye in proxy mode.
+2. Add AntiDPEye to AdGuard's exceptions on the **App management** tab.
+3. In AdGuard's settings, configure the proxy as follows:
 
    ```plaintext
    Proxy type: SOCKS5
    Proxy host: 127.0.0.1
-   Proxy port: 1080 (default)
+   Proxy port: 1080
    ```
 
-### What data does the application collect?
+   Port `1080` is used by default.
 
-None. The application does not send any data to a remote server. All traffic is processed on the device.
+### What data does AntiDPEye collect?
 
-### Are there any for other platforms?
+None. AntiDPEye does not send data to any remote server. All traffic is processed locally on your device.
 
-[Similar projects](https://github.com/ValdikSS/GoodbyeDPI/blob/master/README.md#similar-projects))
+### Are there versions for other platforms?
+
+See the list of [similar projects](https://github.com/ValdikSS/GoodbyeDPI/blob/master/README.md#similar-projects).
 
 ### What is DPI?
 
-DPI (Deep Packet Inspection) is a technology for analyzing and filtering traffic. It is used by providers and government agencies to block sites and services.
+Deep Packet Inspection (DPI) is a technology used to analyze and filter network traffic. Internet service providers and government agencies may use it to block access to websites and services.
 
 ## Dependencies
 
@@ -77,21 +67,27 @@ DPI (Deep Packet Inspection) is a technology for analyzing and filtering traffic
 
 ## Building
 
-For building the application, you need:
+To build AntiDPEye, you will need:
 
-1. JDK 8 or later
+1. JDK 17 or later
 2. Android SDK
 3. Android NDK
-4. CMake 3.22.1 or later
+4. CMake 4.1.2 or later
 
-To build the application:
+Then follow these steps:
 
-1. Clone the repository with submodules:
+1. Clone the repository and its submodules:
+
    ```bash
    git clone --recurse-submodules
    ```
-2. Run the build script from the root of the repository:
+
+2. Run the build script from the repository root:
+
    ```bash
    ./gradlew assembleRelease
    ```
-3. The APK will be in `app/build/outputs/apk/release/`
+
+3. The generated APK will be located at:
+
+   `app/build/outputs/apk/release/`

@@ -1,3 +1,9 @@
 <resources>
-    <style name="Theme.ByeDPI" parent="Theme.Material3.DayNight.NoActionBar" />
+    <style name="Theme.AntiDPEye" parent="Theme.Material3.DayNight.NoActionBar" />
+
+    <style name="Theme.AntiDPEye.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">?android:attr/colorBackground</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_icon</item>
+        <item name="postSplashScreenTheme">@style/Theme.AntiDPEye</item>
+    </style>
 </resources>

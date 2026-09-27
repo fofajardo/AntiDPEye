@@ -1,67 +1,122 @@
-name: Bug Report / Сообщение об ошибке
-description: File a bug report / Сообщить об ошибке в программе
-labels: [ bug ]
-assignees: dovecoteescapee
+name: Bug Report
+description: Report a reproducible bug in AntiDPEye
+title: "[Bug]: "
+labels:
+  - bug
+
 body:
   - type: markdown
     attributes:
       value: |
-        ### If you have trouble with specific websites or or can't configure the app, please use the [discussions section](https://github.com/dovecoteescapee/ByeDPIAndroid/discussions) to discuss it. This template is only for reporting bugs in the ByeDPI program.
-        ### Если у вас не работают какие-то сайты или не получается настроить приложение, используйте [раздел дискуссий](https://github.com/dovecoteescapee/ByeDPIAndroid/discussions) для обсуждения этого. Этот шаблон предназначен только для сообщений об ошибках в программе ByeDPI.
+        Thanks for taking the time to report a bug.
+
+        Before submitting, please search the open and closed issues to make sure the problem has not already been reported.
+
   - type: textarea
     id: bug
     attributes:
-      label: Describe the bug / Описание ошибки
-      description: A clear and concise description of what the bug is / Четкое и краткое описание ошибки
+      label: Bug description
+      description: Clearly and concisely describe the problem.
+      placeholder: What went wrong?
     validations:
       required: true
+
   - type: textarea
     id: reproduce
     attributes:
-      label: To Reproduce / Как воспроизвести
-      description: Steps to reproduce the behavior / Шаги для воспроизведения проблемы
-      value: |
-        1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
-        4. See error
+      label: Steps to reproduce
+      description: Provide clear, numbered steps that consistently reproduce the problem.
+      placeholder: |
+        1. Open AntiDPEye.
+        2. Enable ...
+        3. Configure ...
+        4. Tap ...
+        5. Observe ...
     validations:
       required: true
+
   - type: textarea
     id: expected
     attributes:
-      label: Expected behavior / Ожидаемое поведение
-      description: A clear and concise description of what you expected to happen / Четкое и краткое описание ожидаемого поведения
+      label: Expected behavior
+      description: Describe what you expected to happen.
+      placeholder: What should have happened?
     validations:
       required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Describe what happened instead. Include any error messages.
+      placeholder: What happened instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        If available, attach relevant logs or crash reports. Remove passwords, tokens, personal information, and other sensitive data before posting.
+      render: shell
+
   - type: textarea
     id: screenshots
     attributes:
-      label: Screenshots / Скриншоты
-      description: If applicable, add screenshots to help explain your problem / При необходимости добавьте скриншоты, чтобы объяснить вашу проблему
+      label: Screenshots or screen recordings
+      description: If applicable, attach screenshots or a short screen recording that demonstrates the issue.
+
   - type: textarea
     id: environment
     attributes:
-      label: Environment / Окружение
-      description: Please complete the following information / Пожалуйста, заполните следующую информацию
+      label: Environment
+      description: Provide the following information.
       value: |
-        **Smartphone / Смартфон:**
-        - Device: [e.g. Pixel Fold, Samsung Galaxy S24]
-        - Android version: [e.g. 10]
-        - ByeDPI version: [e.g. 1.0.2]
+        - Device:
+        - Android version:
+        - AntiDPEye version:
+        - Installation source:
+        - Rooted device: Yes/No
+        - VPN or other network-related apps:
     validations:
       required: true
+
   - type: textarea
-    id: context
+    id: configuration
     attributes:
-      label: Additional context / Дополнительная информация
-      description: Add any other context about the problem here / Добавьте любую другую информацию о проблеме здесь
+      label: AntiDPEye configuration
+      description: |
+        Include the relevant AntiDPEye settings, arguments, or configuration used when the issue occurred. Remove any sensitive information.
+      render: text
+
+  - type: textarea
+    id: network
+    attributes:
+      label: Network details
+      description: |
+        If relevant, provide details about your connection and whether the issue also occurs on other networks.
+      value: |
+        - Connection type: Wi-Fi / Mobile data / Other
+        - Internet service provider:
+        - Occurs on other networks: Yes/No/Not tested
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other information that may help diagnose the issue.
+
   - type: checkboxes
     id: checklist
     attributes:
-      label: Before you submit / Прежде чем отправить
+      label: Before submitting
       options:
-        - label: I have searched the open and closed issues for duplicates / Я искал(а) открытые и закрытые задачи на предмет дубликатов
+        - label: I have searched the open and closed issues for duplicates.
           required: true
-        - label: This is not a question, feature request, or general feedback / Это не вопрос, предложение новой функциональности или общий отзыв
+        - label: I have included enough information to reproduce the issue.
+          required: true
+        - label: I have removed passwords, tokens, personal data, and other sensitive information.
+          required: true
+        - label: This is a bug report, not a question, feature request, or general feedback.
           required: true
