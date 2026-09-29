@@ -35,9 +35,12 @@ android {
     buildTypes {
         release {
             buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
-
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
         debug {
             buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}-debug\"")
